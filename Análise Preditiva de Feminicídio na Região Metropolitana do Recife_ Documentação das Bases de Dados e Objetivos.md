@@ -1,5 +1,14 @@
 # Análise Preditiva de Feminicídio na Região Metropolitana do Recife: Documentação das Bases de Dados e Objetivos
 
+## Integrantes do Grupo
+- João Guilherme de Lima Martins
+- Edson Nascimento Silva
+- Brendo Garcia da Silva
+- Gian Vitor Melo de Lira
+- Josivaldo Braga Junior
+- Ruan Ribeiro de Oliveira
+- Leandro Marques da Silva
+
 ## 1. Descrição das Bases de Dados Pesquisadas
 
 ### 1.1 Base Principal: Secretaria de Defesa Social de Pernambuco (SDS-PE)
@@ -25,7 +34,7 @@
 
 **Fonte:** Instituto de Pesquisa Econômica Aplicada (IPEA) - Atlas da Violência 2025
 
-**Arquivo:** atlas-violencia-2025.pdf (fornecido pelo usuário)
+**Arquivo:** atlas-violencia-2025.pdf 
 
 **Número de registros:** Dados nacionais e estaduais de feminicídio e homicídios de mulheres
 
@@ -38,7 +47,7 @@
 - **Local do crime:** Residência, via pública, outros
 - **Relação com o agressor:** Cônjuge, ex-cônjuge, namorado, outros
 
-**Escopo temporal:** 2012-2023 (série histórica de 11 anos)
+**Escopo temporal:** 2012-2023 infelizmente não foi encontrada dados mais recente dos anos de 2024 e 2025
 
 **Escopo geográfico:** Nacional, com detalhamento por Unidades Federativas, incluindo Pernambuco
 
@@ -58,7 +67,7 @@
 - **Perfil das vítimas:** Idade, raça, escolaridade
 - **Perfil dos agressores:** Relação com a vítima, antecedentes
 
-**Escopo temporal:** 2019-2024
+**Escopo temporal:** 2019-2024 infelizmente não foi encontrada dados mais recente do ano de 2025
 
 **Escopo geográfico:** Nacional, com detalhamento por estados
 
@@ -104,8 +113,6 @@ Durante a pesquisa, foram identificadas importantes limitações:
 5. **Dados de feminicídio específicos:** Poucas bases disponibilizam dados detalhados especificamente sobre feminicídio, sendo necessário trabalhar com categorias mais amplas de violência contra a mulher.
 
 ## 2. Objetivos de Utilização das Bases de Dados
-
-### 2.1 Perguntas que a Equipe Pretende Responder
 
 #### 2.1.1 Perguntas Descritivas
 
@@ -153,7 +160,7 @@ Durante a pesquisa, foram identificadas importantes limitações:
 
 ### 2.2 Perguntas Preditivas
 
-#### 2.2.1 Modelos de Regressão
+#### 2.2.1 Modelos de Regressão 
 
 **Pergunta principal:** Qual será a taxa de feminicídio na RMR em 2026?
 
@@ -188,7 +195,7 @@ Durante a pesquisa, foram identificadas importantes limitações:
 
 ### 2.3 Metodologia de Análise Proposta
 
-#### 2.3.1 Análise Exploratória de Dados (EDA)
+#### 2.3.1 Análise Exploratória de Dados
 
 1. **Análise univariada:** Distribuições, medidas de tendência central e dispersão
 2. **Análise bivariada:** Correlações, testes de associação
@@ -273,7 +280,7 @@ Durante a pesquisa, foram identificadas importantes limitações:
 
 ## 4. Cronograma de Desenvolvimento
 
-### Fase 1: Coleta e Estruturação de Dados (Concluída)
+### Fase 1: Coleta e Estruturação de Dados (Em andamento)
 - Identificação e acesso às bases de dados
 - Limpeza e padronização dos dados
 - Criação de base integrada
@@ -293,10 +300,6 @@ Durante a pesquisa, foram identificadas importantes limitações:
 - Mapas interativos com projeções
 - Dashboard de monitoramento
 
-### Fase 5: Documentação e Entrega (Final)
-- Relatório técnico completo
-- Manual de uso da aplicação
-- Recomendações para políticas públicas
 
-Este documento representa a base metodológica e conceitual do projeto de análise preditiva de feminicídio na RMR, estabelecendo as diretrizes para o desenvolvimento de uma ferramenta robusta e cientificamente fundamentada para apoio à tomada de decisões em segurança pública e proteção das mulheres.
-
+Este documento representa a base metodológica e conceitual do projeto de análise preditiva de feminicídio na RMR, 
+estabelecendo as diretrizes para o desenvolvimento de uma ferramenta robusta e cientificamente fundamentada para apoio à tomada de decisões em segurança pública e proteção das mulheres.
