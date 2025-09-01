@@ -1,0 +1,6 @@
+Tipo_Crime,Tempo_Medio_Resolucao_Dias,Taxa_Elucidacao_Pct,Condenacoes_Ano
+Homicídio,208.0,42.4,247
+Roubo,111.0,53.6,252
+Furto,154.0,32.1,87
+Violência Doméstica,153.0,51.6,247
+Tráfico,164.0,60.8,193
