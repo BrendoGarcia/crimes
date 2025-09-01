@@ -4,6 +4,15 @@
 
 Este projeto desenvolvido em Streamlit apresenta uma análise abrangente dos dados de violência na Região Metropolitana do Recife (RMR), com foco especial em violência doméstica e familiar contra a mulher.
 
+## Integrantes do Grupo
+- João Guilherme de Lima Martins
+- Edson Nascimento Silva
+- Brendo Garcia da Silva
+- Gian Vitor Melo de Lira
+- Josivaldo Braga Junior
+- Ruan Ribeiro de Oliveira
+- Leandro Marques da Silva
+
 ## Funcionalidades
 
 ### 🏠 Visão Geral
