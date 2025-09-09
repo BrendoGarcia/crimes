@@ -1,4 +1,4 @@
-# Análise Preditiva de Feminicídio na Região Metropolitana do Recife: Documentação das Bases de Dados e Objetivos
+# Análise Preditiva de Feminicídio na Região Metropolitana do Recife: Documentação das Bases de Dados e Objetivos.
 
 ## Integrantes do Grupo
 - João Guilherme de Lima Martins
