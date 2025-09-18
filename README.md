@@ -210,6 +210,26 @@ Exemplo de resposta (201 Created):
   "Suma de Quantidade_de_Casos": 10
 }
 ```
+Instruções para Rodar o Back-End.
+
+1 Primeiro Faça o Git clone do repositório e da branche certa.
+2 Faça a instalação das dependêcias do sistema.
+```bash
+pip install -r requirements.txt
+```
+3 Configure as variavens de anbiente
+```bash
+MONGO_URI="Url do banco Mongo atlas"
+DATABASE_NAME="Nome do Seu Banco no mongo altas"
+COLLECTION_NAME="Nome da Coleção do seu Mongo atlas"
+```
+Obs: Remova as aspas 
+
+4 Execulte o app python do backend.
+```bash
+python app.py
+```
+
 🔹 Observações importantes
 
 Todos os endpoints retornam JSON.
