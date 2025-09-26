@@ -1,0 +1,10 @@
+{
+  "name": "FrontEnd",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "serve -s dist -l 3000"
+  },
+  "dependencies": {
+    "serve": "^14.0.1"
+  }
+}
