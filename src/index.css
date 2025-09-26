@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Crime Analysis App Design System - Professional, serious, data-focused
+All colors MUST be HSL for consistency.
+*/
+
+@layer base {
+  :root {
+    /* Core theme - Professional crime data analysis */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 5%;
+
+    /* Card system - Clean data containers */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
+
+    /* Popover system */
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+
+    /* Primary - Strong red for critical data */
+    --primary: 0 73% 41%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 0 73% 35%;
+
+    /* Secondary - Professional dark */
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Muted - Neutral backgrounds */
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 45%;
+
+    /* Accent - Highlight color */
+    --accent: 0 0% 10%;
+    --accent-foreground: 0 0% 98%;
+
+    /* Destructive - Critical alerts */
+    --destructive: 0 73% 41%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Borders and inputs */
+    --border: 0 0% 85%;
+    --input: 0 0% 95%;
+    --ring: 0 73% 41%;
+
+    /* Design tokens */
+    --radius: 0.75rem;
+
+    /* Custom gradients for impact */
+    --gradient-primary: linear-gradient(135deg, hsl(0 73% 41%), hsl(0 73% 35%));
+    --gradient-dark: linear-gradient(135deg, hsl(0 0% 15%), hsl(0 0% 5%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 98%), hsl(0 0% 95%));
+
+    /* Professional shadows */
+    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
+    --shadow-elevated: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -2px hsl(0 0% 0% / 0.05);
+    --shadow-intense: 0 20px 25px -5px hsl(0 0% 0% / 0.15), 0 10px 10px -5px hsl(0 0% 0% / 0.1);
+
+    /* Smooth transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s ease-out;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* Dark mode - maintaining professional appearance */
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 73% 45%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 73% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 0 73% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Professional animations for data visualization */
+  .chart-animate {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .metric-card {
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-card);
+  }
+
+  .metric-card:hover {
+    box-shadow: var(--shadow-elevated);
+    transform: translateY(-2px);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .slide-in {
+    animation: slideIn 0.4s ease-out;
+  }
+}
