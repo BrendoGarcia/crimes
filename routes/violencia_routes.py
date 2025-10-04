@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 from bson import ObjectId
 from models.violencia_model import Violencia
 from services.mongo_service import get_collection
+import pandas as pd
+from datetime import datetime
 
 violencia_bp = Blueprint("violencia", __name__)
 
@@ -49,3 +51,72 @@ def insert_doc():
     result = get_collection().insert_one(data)
     novo_doc = get_collection().find_one({"_id": result.inserted_id})
     return jsonify(Violencia(novo_doc).to_dict()), 201
+
+# rota previção do numero de casos.
+@violencia_bp.route("/predict", methods=["POST"])
+def predict_violence():
+    """
+    Faz predição de casos de violência com base nos parâmetros enviados pelo usuário
+    e salva o resultado completo no banco de dados.
+    """
+    try:
+        model = current_app.config.get("MODEL")
+        if model is None:
+            return jsonify({"error": "Modelo não carregado no servidor"}), 500
+
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Nenhum dado enviado"}), 400
+
+        # 🔹 Campos obrigatórios que o usuário deve fornecer
+        required_fields = ["ano", "ocorrencia", "tipo_de_violencia", "faixa_etaria", "raca", "arma"]
+        missing = [f for f in required_fields if f not in data]
+        if missing:
+            return jsonify({"error": f"Campos ausentes: {', '.join(missing)}"}), 400
+
+        # 🔹 Monta DataFrame com os mesmos campos usados no treinamento do modelo
+        input_df = pd.DataFrame([{
+            "ano": data["ano"],
+            "ocorrencia": data["ocorrencia"],
+            "tipo_de_violencia": data["tipo_de_violencia"],
+            "faixa_etaria": data["faixa_etaria"],
+            "raca": data["raca"],
+            "arma": data["arma"]
+        }])
+
+        # 🔹 Faz a predição com o modelo carregado
+        predicted_value = float(model.predict(input_df)[0])
+
+        # 🔹 Monta o registro completo com campos fixos e previsão
+        registro = {
+            "pais": "Brasil",
+            "tipo_base_de_dados": "Segurança",
+            "ano": data["ano"],
+            "cod_estado": 26,
+            "estado": "Pernambuco",
+            "ocorrencia": data["ocorrencia"],
+            "tipo_de_violencia": data["tipo_de_violencia"],
+            "sexo": "Mulher",
+            "faixa_etaria": data["faixa_etaria"],
+            "raca": data["raca"],
+            "arma": data["arma"],
+            "Suma de Quantidade_de_Casos": predicted_value,
+            "data_execucao": datetime.now().isoformat()
+        }
+
+        # 🔹 Salva no MongoDB
+        collection = get_collection()
+        collection.insert_one(registro)
+
+        # 🔹 Retorna resultado
+        return jsonify({
+            "status": "success",
+            "predicao": predicted_value,
+            "registro_salvo": registro
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
