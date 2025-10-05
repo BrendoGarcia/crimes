@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from bson import ObjectId
 from models.violencia_model import Violencia
 from services.mongo_service import get_collection
