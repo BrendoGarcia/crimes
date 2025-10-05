@@ -53,6 +53,15 @@ def insert_doc():
     return jsonify(Violencia(novo_doc).to_dict()), 201
 
 
+# Função para arredondamento customizado
+def round_custom(value):
+    decimal = value - int(value)
+    if decimal >= 0.5:
+        return int(value) + 1
+    else:
+        return int(value)
+
+
 # rota previção do numero de casos.
 @violencia_bp.route("/predict", methods=["POST"])
 def predict_violence():
@@ -69,14 +78,14 @@ def predict_violence():
         if not data:
             return jsonify({"error": "Nenhum dado enviado"}), 400
 
-        # 🔹 Campos obrigatórios que o usuário deve fornecer
+        # 🔹 Campos obrigatórios
         required_fields = ["ano", "ocorrencia", "tipo_de_violencia", "faixa_etaria", "raca", "arma"]
         missing = [f for f in required_fields if f not in data]
         if missing:
             return jsonify({"error": f"Campos ausentes: {', '.join(missing)}"}), 400
 
-        # 🔹 Criar DataFrame vazio com todas as colunas usadas no treinamento
-        feature_columns = model.feature_names_in_  # colunas do treinamento
+        # 🔹 Criar DataFrame com todas as colunas do treinamento
+        feature_columns = model.feature_names_in_  # colunas do modelo
         input_df = pd.DataFrame(0, index=[0], columns=feature_columns)
 
         # 🔹 Colocar valor do ano
@@ -90,10 +99,11 @@ def predict_violence():
             if col_name in input_df.columns:
                 input_df[col_name] = 1
 
-        # 🔹 Faz a predição com o modelo carregado
+        # 🔹 Predição
         predicted_value = float(model.predict(input_df)[0])
+        predicted_value_rounded = round_custom(predicted_value)  # arredondar
 
-        # 🔹 Monta o registro completo com campos fixos e previsão
+        # 🔹 Registro completo
         registro = {
             "pais": "Brasil",
             "tipo_base_de_dados": "Segurança",
@@ -106,7 +116,7 @@ def predict_violence():
             "faixa_etaria": data["faixa_etaria"],
             "raca": data["raca"],
             "arma": data["arma"],
-            "Suma de Quantidade_de_Casos": predicted_value,
+            "Suma de Quantidade_de_Casos": predicted_value_rounded,
             "data_execucao": datetime.now().isoformat()
         }
 
@@ -117,7 +127,7 @@ def predict_violence():
         # 🔹 Retorna resultado
         return jsonify({
             "status": "success",
-            "predicao": predicted_value,
+            "predicao": predicted_value_rounded,
             "registro_salvo": registro
         }), 200
 
