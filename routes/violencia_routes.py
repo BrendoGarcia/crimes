@@ -52,6 +52,7 @@ def insert_doc():
     novo_doc = get_collection().find_one({"_id": result.inserted_id})
     return jsonify(Violencia(novo_doc).to_dict()), 201
 
+
 # rota previção do numero de casos.
 @violencia_bp.route("/predict", methods=["POST"])
 def predict_violence():
@@ -74,15 +75,20 @@ def predict_violence():
         if missing:
             return jsonify({"error": f"Campos ausentes: {', '.join(missing)}"}), 400
 
-        # 🔹 Monta DataFrame com os mesmos campos usados no treinamento do modelo
-        input_df = pd.DataFrame([{
-            "ano": data["ano"],
-            "ocorrencia": data["ocorrencia"],
-            "tipo_de_violencia": data["tipo_de_violencia"],
-            "faixa_etaria": data["faixa_etaria"],
-            "raca": data["raca"],
-            "arma": data["arma"]
-        }])
+        # 🔹 Criar DataFrame vazio com todas as colunas usadas no treinamento
+        feature_columns = model.feature_names_in_  # colunas do treinamento
+        input_df = pd.DataFrame(0, index=[0], columns=feature_columns)
+
+        # 🔹 Colocar valor do ano
+        if "ano" in input_df.columns:
+            input_df["ano"] = data["ano"]
+
+        # 🔹 Preencher 1 nas colunas correspondentes às categorias
+        category_fields = ["arma", "faixa_etaria", "ocorrencia", "raca", "tipo_de_violencia"]
+        for field in category_fields:
+            col_name = f"{field}_{data[field]}"
+            if col_name in input_df.columns:
+                input_df[col_name] = 1
 
         # 🔹 Faz a predição com o modelo carregado
         predicted_value = float(model.predict(input_df)[0])
@@ -117,6 +123,3 @@ def predict_violence():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
-
