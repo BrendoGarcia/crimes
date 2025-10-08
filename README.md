@@ -95,3 +95,9 @@ A aplicação estará disponível em: `http://localhost:8080`
 - Expansão para outros tipos de criminalidade
 - Adição de funcionalidades de exportação de relatórios
 
+
+## Repositorios do sistema.
+- Back-end = https://github.com/BrendoGarcia/crimes/tree/Back-end
+- Front-end = https://github.com/BrendoGarcia/crimes/tree/Front-end
+- Versão Demo = https://github.com/BrendoGarcia/crimes/tree/DEMO
+
