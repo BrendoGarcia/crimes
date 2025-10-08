@@ -1,8 +1,8 @@
-# Versão Demo Análise de Violência na Região Metropolitana do Recife
+# Projeto de Análise de Dados (React/TypeScript)
 
 ## Descrição do Projeto
 
-Este projeto desenvolvido em Streamlit apresenta uma análise abrangente dos dados de violência na Região Metropolitana do Recife (RMR), com foco especial em violência doméstica e familiar contra a mulher.
+Este projeto é uma aplicação web desenvolvida com React e TypeScript, projetada para apresentar e analisar dados através de uma interface de usuário interativa. A aplicação utiliza um sistema de navegação por telas para organizar diferentes seções de análise e visualização de informações.
 
 ## Integrantes do Grupo
 - João Guilherme de Lima Martins
@@ -16,100 +16,82 @@ Este projeto desenvolvido em Streamlit apresenta uma análise abrangente dos dad
 ## Funcionalidades
 
 ### 🏠 Visão Geral
-- **Mapa Interativo**: Visualização geográfica dos casos de violência doméstica por município
-- **Indicadores Principais**: Métricas resumidas dos dados coletados
-- **Legenda Visual**: Sistema de cores para identificar níveis de violência por região
+A aplicação é estruturada em diferentes telas, cada uma com um propósito específico:
+- **Visão Geral (OverviewScreen): Provavelmente a tela inicial, oferecendo um resumo ou um ponto de partida para a exploração dos dados.
+- **Métricas (MetricsScreen): Exibe métricas e indicadores relevantes, possivelmente com gráficos e tabelas para uma análise aprofundada.
+- **Análise (AnalysisScreen): Permite uma análise mais detalhada dos dados, com opções de filtragem, agrupamento e visualização personalizada.
+- **Simulação (SimulationScreen): Oferece a capacidade de simular cenários ou interagir com modelos para entender o impacto de diferentes variáveis.
 
-### 👩 Violência Doméstica
-- **Dados Oficiais**: Informações da Secretaria de Defesa Social de Pernambuco (Jan-Jul 2025)
-- **Análise Temporal**: Evolução mensal dos casos
-- **Ranking Municipal**: Distribuição e comparação entre municípios
-- **Análise Detalhada**: Seleção individual de municípios para análise específica
 
-### 📈 Outras Métricas
-- **Classe Econômica**: Correlação entre indicadores socioeconômicos e criminalidade
-- **Horário & Clima**: Padrões de criminalidade por período do dia e condições climáticas
-- **Policiamento**: Análise da efetividade policial e recursos por município
-- **Punições & Resolução**: Dados sobre tempo de resolução e taxa de elucidação de crimes
 
-## Estrutura de Arquivos
-
-```
-projeto-violencia-rmr/
-├── app_completo.py              # Aplicação principal do Streamlit
-├── dados_simulados.py           # Script para gerar dados complementares
-├── violencia_domestica_rmr.csv  # Dados reais de violência doméstica
-├── dados_classe_economica.csv   # Dados socioeconômicos simulados
-├── dados_horario_clima.csv      # Dados de horário e clima simulados
-├── dados_policiamento.csv       # Dados de policiamento simulados
-├── dados_punicoes.csv           # Dados de punições simulados
-├── requirements.txt             # Dependências do projeto
-└── README.md                    # Este arquivo
+### Estrutura de Arquivos
+O projeto segue uma estrutura modular, organizada da seguinte forma:
+```bash
+src/
+├── App.tsx                  # Componente principal da aplicação e configuração de rotas
+├── main.tsx                 # Ponto de entrada da aplicação React
+├── index.css                # Estilos globais da aplicação
+├── components/              # Componentes reutilizáveis da interface (Layout, Charts, Metrics, UI)
+│   ├── Charts/              # Componentes de gráficos (ex: CrimeChart.tsx)
+│   ├── Layout/              # Componentes de layout (ex: Navigation.tsx)
+│   ├── Metrics/             # Componentes para exibição de métricas (ex: MetricCard.tsx)
+│   └── ui/                  # Componentes de UI genéricos (shadcn/ui)
+├── data/                    # Módulos de dados (ex: crimeData.ts)
+├── hooks/                   # Hooks customizados do React (ex: use-mobile.tsx, use-toast.ts)
+├── lib/                     # Funções utilitárias e de configuração (ex: utils.ts)
+├── pages/                   # Páginas principais da aplicação (ex: Index.tsx, NotFound.tsx)
+├── screens/                 # Telas específicas da aplicação (OverviewScreen, MetricsScreen, AnalysisScreen, SimulationScreen)
+├── services/                # Serviços para interação com APIs ou fontes de dados (ex: violenciaService.ts)
+└── utils/                   # Utilitários gerais do projeto (ex: violenciaDataProcessor.ts)
 ```
 
 ## Instalação e Execução
 
 ### Pré-requisitos
-- Python 3.11+
-- pip
+- Node.js (versão 18 ou superior é recomendada)
+- npm, yarn ou pnpm (gerenciador de pacotes de sua preferência)
 
 ### Instalação das Dependências
 ```bash
-pip install -r requirements.txt
+npm install
+# ou
+yarn install
+# ou
+pnpm install
 ```
 
 ### Execução da Aplicação
 ```bash
-streamlit run app_completo.py
+npm run dev
+# ou
+yarn dev
+# ou
+pnpm dev
 ```
 
-A aplicação estará disponível em: `http://localhost:8501`
+A aplicação estará disponível em: `http://localhost:8080`
 
 ## Dependências
 
-- streamlit
-- pandas
-- folium
-- streamlit-folium
-- plotly
-- numpy
+- React: Biblioteca JavaScript para construção de interfaces de usuário.
+- TypeScript: Superset de JavaScript que adiciona tipagem estática.
+- Vite: Ferramenta de build e desenvolvimento rápido (inferido pelo vite-env.d.ts e estrutura).
+- React Router DOM: Para gerenciamento de rotas na aplicação (BrowserRouter, Routes, Route).
+- @tanstack/react-query: Para gerenciamento de estado assíncrono e cache de dados.
+- Tailwind CSS: Framework CSS utilitário (inferido pela convenção de classes bg-background, min-h-screen).
+- shadcn/ui: Coleção de componentes de UI (inferido pelos imports @/components/ui/).
+- Recharts ou similar: Para gráficos (inferido pela existência de Charts/CrimeChart.tsx).
 
 ## Fontes de Dados
 
-### Dados Reais
+### Dadoss
 - **Violência Doméstica**: Secretaria de Defesa Social de Pernambuco
 - **Atlas da Violência**: Instituto de Pesquisa Econômica Aplicada (IPEA)
 - **Fórum Brasileiro de Segurança Pública**: Relatórios anuais
-
-### Dados Simulados
-Para fins demonstrativos, foram criados dados simulados para:
-- Indicadores socioeconômicos por município
-- Padrões de criminalidade por horário e clima
-- Dados de policiamento e efetividade
-- Informações sobre punições e resolução de casos
-
-## Características Técnicas
-
-- **Interface Responsiva**: Compatível com desktop e dispositivos móveis
-- **Mapas Interativos**: Utilizando Folium para visualização geográfica
-- **Gráficos Dinâmicos**: Plotly para visualizações interativas
-- **Cache de Dados**: Otimização de performance com @st.cache_data
-- **Navegação Intuitiva**: Sistema de abas e seções organizadas
-
-## Limitações e Considerações
-
-1. **Dados Complementares**: Algumas métricas utilizam dados simulados devido à indisponibilidade de fontes oficiais estruturadas
-2. **Período de Análise**: Dados de violência doméstica limitados ao período de janeiro a julho de 2025
-3. **Escopo Geográfico**: Análise restrita à Região Metropolitana do Recife
 
 ## Próximos Passos
 
 - Integração com APIs oficiais para dados em tempo real
 - Expansão para outros tipos de criminalidade
-- Implementação de modelos preditivos
 - Adição de funcionalidades de exportação de relatórios
-
-## Contato e Suporte
-
-Este projeto foi desenvolvido para análise e transparência de dados públicos sobre violência na RMR, contribuindo para o debate informado sobre segurança pública.
 
