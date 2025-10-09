@@ -84,10 +84,9 @@ A aplicação estará disponível em: `http://localhost:8080`
 
 ## Fontes de Dados
 
-### Dadoss
-- **Violência Doméstica**: Secretaria de Defesa Social de Pernambuco
-- **Atlas da Violência**: Instituto de Pesquisa Econômica Aplicada (IPEA)
-- **Fórum Brasileiro de Segurança Pública**: Relatórios anuais
+### Dados
+- **Violência contra a  mulher**: Base de dados dos crimes contra a mulher no Brasil entre 2019 até 2023.
+
 
 ## Próximos Passos
 
