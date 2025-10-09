@@ -65,6 +65,7 @@ Os resultados das métricas para os modelos são:
 Com base nas métricas, o **Random Forest Regressor** demonstrou um desempenho significativamente superior ao Modelo de Regressão Linear. O R2 Score de 0.95 para o Random Forest indica que ele explica 95% da variância na variável alvo, enquanto a Regressão Linear explica apenas 46%. Além disso, os valores de MSE, RMSE e MAE são consideravelmente menores para o Random Forest, indicando erros de previsão muito menores.
 
 #### Visualizações
+<img width="1388" height="590" alt="download (2)" src="https://github.com/user-attachments/assets/1de18282-36af-445a-b9f0-6ecf404348a2" />
 O projeto inclui gráficos de dispersão comparando os valores reais (`y_test`) com os valores preditos (`y_pred`) para ambos os modelos, além de histogramas da distribuição dos resíduos. Essas visualizações são cruciais para entender visualmente a performance dos modelos e a distribuição dos erros.
 
 ### 5. Modelagem Não Supervisionada
