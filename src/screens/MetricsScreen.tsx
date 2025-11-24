@@ -5,9 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MetricCard } from "@/components/Metrics/MetricCard";
 import { CrimeChart } from "@/components/Charts/CrimeChart";
-import { monthlyData, cityData } from "@/data/crimeData";
 import { violenciaService, Violencia } from "@/services/violenciaService";
-import { getSummaryStats, getYears, getYearlyTrendData, getFeminicideRate, getFeminicidesCount, getYearlyVariation } from "@/utils/violenciaDataProcessor";
+import { ChatbotModal } from "@/components/Chatbot/ChatbotModal";
+import { getSummaryStats, groupByEstado, getYears, getYearlyTrendData, getFeminicideRate, getFeminicidesCount, getYearlyVariation } from "@/utils/violenciaDataProcessor";
 
 export const MetricsScreen = () => {
   const [selectedYear, setSelectedYear] = useState("2019");
@@ -23,9 +23,11 @@ export const MetricsScreen = () => {
     () => getYearlyTrendData(data), // todos os crimes
     [data]
   );
-  const cities = [
+  const crimesPorEstado = useMemo(() => groupByEstado(data), [data]);
+  const estados = [
     { value: "all", label: "Todos os estados" },
     { value: "Pernambuco", label: "Pernambuco" }
+
   ];
 
   useEffect(() => {
@@ -58,6 +60,38 @@ export const MetricsScreen = () => {
 
     fetchData();
   }, [selectedYear]);
+
+  // Estado com maior número de casos
+  const estadoMaiorCasos = useMemo(() => {
+    if (!crimesPorEstado.length) return null;
+    return crimesPorEstado.reduce((max, curr) => (curr.value > max.value ? curr : max), crimesPorEstado[0]);
+  }, [crimesPorEstado]);
+
+  // Percentual de regiões (exemplo: Nordeste)
+  const nordesteEstados = ["Pernambuco", "Bahia", "Maranhão", "Ceará", "Rio Grande do Norte", "Paraíba", "Alagoas", "Sergipe"];
+  const nordestePercent = useMemo(() => {
+    const total = crimesPorEstado.reduce((sum, c) => sum + c.value, 0);
+    const nordesteSum = crimesPorEstado
+      .filter(c => nordesteEstados.includes(c.name))
+      .reduce((sum, c) => sum + c.value, 0);
+    return ((nordesteSum / total) * 100).toFixed(0); // ex: 67%
+  }, [crimesPorEstado]);
+
+  // Percentual de regiões (exemplo: Sul)
+  const sulEstados = ["Paraná", "Santa Catarina", "Rio Grande do Sul"];
+  const sulData = useMemo(() => {
+  const totalSul = crimesPorEstado
+    .filter(c => sulEstados.includes(c.name))
+    .reduce((sum, c) => sum + c.value, 0);
+
+  // achar os 2 estados com mais casos no Sul
+  const topSul = crimesPorEstado
+    .filter(c => sulEstados.includes(c.name))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 2);
+
+  return { totalSul, topSul };
+  }, [crimesPorEstado]);
   
   if (loading || !stats) return <div>Carregando...</div>;
 
@@ -71,6 +105,9 @@ export const MetricsScreen = () => {
         <p className="text-muted-foreground">
           Análise histórica e comparativa dos indicadores criminais
         </p>
+      </div>
+      <div>
+        <ChatbotModal />
       </div>
 
       {/* Filters */}
@@ -101,7 +138,7 @@ export const MetricsScreen = () => {
                   <SelectValue placeholder="Selecione um estado" />
                 </SelectTrigger>
                 <SelectContent>
-                  {cities.map((city) => (
+                  {estados.map((city) => (
                     <SelectItem key={city.value} value={city.value}>
                       {city.label}
                     </SelectItem>
@@ -161,36 +198,15 @@ export const MetricsScreen = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <CrimeChart
-              type="line"
-              data={yearlyTrendData}
-              height={300}
-            />
+            <div className="w-[600px] h-[300px]">
+              <CrimeChart
+                type="line"
+                data={yearlyTrendData}
+              />
+            </div>
             <div className="mt-4 p-3 bg-gradient-subtle rounded-lg">
               <p className="text-sm text-muted-foreground">
                 <span className="font-semibold text-foreground">Tendência:</span> A taxa média de crimes manteve-se em média muito aproximada desde 2019, com poucas oscilações entre 2019-2023.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Monthly Distribution */}
-        <Card className="metric-card">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold text-foreground">
-              Distribuição Feminicidio por Estados - 2019 a 2023
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CrimeChart
-              type="bar"
-              data={monthlyData}
-              height={300}
-            />
-            <div className="mt-4 p-3 bg-gradient-subtle rounded-lg">
-              <p className="text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">Pico:</span> Julho registra 
-                o maior número de casos (19), dezembro o menor (4).
               </p>
             </div>
           </CardContent>
@@ -208,29 +224,29 @@ export const MetricsScreen = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <CrimeChart
               type="bar"
-              data={cityData}
+              data={crimesPorEstado}
               height={300}
             />
             <div className="space-y-4">
               <div className="space-y-3">
                 <div className="p-3 bg-gradient-subtle rounded-lg border-l-4 border-l-primary">
-                  <h4 className="font-semibold text-foreground">Pernambuco</h4>
+                  <h4 className="font-semibold text-foreground">{estadoMaiorCasos.name}</h4>
                   <p className="text-sm text-muted-foreground">
-                    Maior concentração absoluta (1.250 casos)
+                    Maior concentração absoluta ({estadoMaiorCasos.value} casos)
                   </p>
                 </div>
                 
                 <div className="p-3 bg-gradient-subtle rounded-lg border-l-4 border-l-crime-warning">
                   <h4 className="font-semibold text-foreground">Região Nordeste</h4>
                   <p className="text-sm text-muted-foreground">
-                    Pernambuco + Bahia + Maração = 67% dos casos
+                    {nordestePercent}% dos casos
                   </p>
                 </div>
 
                 <div className="p-3 bg-gradient-subtle rounded-lg border-l-4 border-l-crime-danger">
                   <h4 className="font-semibold text-foreground">Sul</h4>
                   <p className="text-sm text-muted-foreground">
-                    Santa Catarina e Petrolina lideram no Sul
+                    {sulData.topSul.map(s => s.name).join(" e ")} lideram no Sul ({sulData.totalSul} casos)
                   </p>
                 </div>
               </div>
@@ -248,16 +264,16 @@ export const MetricsScreen = () => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
               <div className="space-y-2">
-                <div className="text-2xl font-bold text-primary">27.6%</div>
-                <p className="text-sm text-muted-foreground">Redução desde 2019</p>
+                <div className="text-2xl font-bold text-primary">{`${variation.toFixed(1)}%`}</div>
+                <p className="text-sm text-muted-foreground">{`Comparado a ${Number(selectedYear) - 1}`}</p>
               </div>
               <div className="space-y-2">
-                <div className="text-2xl font-bold text-primary">67%</div>
-                <p className="text-sm text-muted-foreground">Concentração na RMR</p>
+                <div className="text-2xl font-bold text-primary">{nordestePercent}%</div>
+                <p className="text-sm text-muted-foreground">Concentração no estado {estadoMaiorCasos.name}</p>
               </div>
               <div className="space-y-2">
-                <div className="text-2xl font-bold text-primary">4.2</div>
-                <p className="text-sm text-muted-foreground">Taxa por 100k mulheres</p>
+                <div className="text-2xl font-bold text-primary">{sulData.totalSul} casos</div>
+                <p className="text-sm text-muted-foreground">Estados do Sul {sulData.topSul.map(s => s.name).join(" e ")}</p>
               </div>
             </div>
           </div>

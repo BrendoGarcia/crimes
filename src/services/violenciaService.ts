@@ -11,7 +11,7 @@ export interface Violencia {
 }
 
 // Base URL da API Flask
-const API_BASE_URL = "https://crimes-production.up.railway.app/api/violencias";
+const API_BASE_URL = "http://127.0.0.1:5000/api/violencias";
 
 export const violenciaService = {
   // Pega todos os documentos
@@ -60,4 +60,24 @@ export const violenciaService = {
       throw error;
     }
   },
+
+  // Faz predição real com o modelo treinado (e salva no banco)
+  predict: async (data: {
+    ano: number;
+    ocorrencia: string;
+    tipo_de_violencia: string;
+    faixa_etaria: string;
+    raca: string;
+    arma: string;
+  }): Promise<any> => {
+    try {
+      const response: AxiosResponse<any> = await axios.post(`${API_BASE_URL}/predict`, data);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao executar predição:", error);
+      throw error;
+    }
+  },
+
 };
+

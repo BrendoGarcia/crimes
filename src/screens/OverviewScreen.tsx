@@ -3,8 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MetricCard } from "@/components/Metrics/MetricCard";
 import { CrimeChart } from "@/components/Charts/CrimeChart";
-import {  getSummaryStats, getCrimesViolentosCount, groupByOcorrencia, getFeminicidesCount, getCrimesSexuaisCount } from "@/utils/violenciaDataProcessor";
+import {  getSummaryStats, getCrimesViolentosCount, getCrimesViolentosEDanosCount, groupByOcorrencia, getFeminicidesCount, getCrimesSexuaisCount } from "@/utils/violenciaDataProcessor";
 import { violenciaService, Violencia } from "@/services/violenciaService";
+import { ChatbotModal } from "@/components/Chatbot/ChatbotModal";
 
 interface OverviewScreenProps {
   onNavigate: (screen: string) => void;
@@ -16,7 +17,8 @@ export const OverviewScreen = ({ onNavigate }: OverviewScreenProps) => {
   const [loading, setLoading] = useState(true);
   const feminicidesCount = getFeminicidesCount(data);
   const crimessexuais = getCrimesSexuaisCount(data);
-  const violentCrimes = getCrimesViolentosCount(data);
+  const violentCrimes = getCrimesViolentosEDanosCount(data);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -34,6 +36,7 @@ export const OverviewScreen = ({ onNavigate }: OverviewScreenProps) => {
     fetchData();
   }, []);
 
+
   if (loading || !stats) return <div>Carregando...</div>;
 
   return (
@@ -46,6 +49,9 @@ export const OverviewScreen = ({ onNavigate }: OverviewScreenProps) => {
         <p className="text-muted-foreground">
           Análise baseada em dados entre 2019 - 2023 • Última atualização: {new Date().toLocaleDateString('pt-BR')}
         </p>
+      </div>
+      <div>
+        <ChatbotModal />
       </div>
 
       {/* Key Metrics */}
@@ -89,8 +95,8 @@ export const OverviewScreen = ({ onNavigate }: OverviewScreenProps) => {
           </CardHeader>
           <CardContent>
             <CrimeChart
-              type="pie"
-              data={data ? groupByOcorrencia(data) : []}
+              type="bar"
+              data={data ? groupByOcorrencia(data).sort((a, b) => b.value - a.value) : []}
               height={350}
             />
           </CardContent>

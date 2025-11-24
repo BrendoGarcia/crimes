@@ -54,6 +54,13 @@ export const getCrimesViolentosCount = (data: Violencia[]) => {
     .reduce((sum, d) => sum + (d["Suma de Quantidade_de_Casos"] || 0), 0);
 };
 
+// Função para calcular crimes violetos + Crimes de dano
+export const getCrimesViolentosEDanosCount = (data: Violencia[]) => {
+  return data
+    .filter(d => d.ocorrencia === "Feminicídio" || d.ocorrencia === "Dano" || d.ocorrencia === "Homicídio Doloso" || d.ocorrencia === "Lesão Corporal Dolosa") // Homocídio Doloso
+    .reduce((sum, d) => sum + (d["Suma de Quantidade_de_Casos"] || 0), 0);
+};
+
 
 export const getTotalCrimes = (data: Violencia[]) => {
   return data.reduce((sum, d) => sum + (d["Suma de Quantidade_de_Casos"] || 0), 0);
@@ -305,3 +312,5 @@ export const getYearlyTrendData = (
       value
     }));
 };
+
+
