@@ -3,9 +3,30 @@ from bson import ObjectId
 from models.violencia_model import Violencia
 from services.mongo_service import get_collection
 import pandas as pd
+from pydantic import BaseModel, ValidationError
 from datetime import datetime
+from pydantic import BaseModel
+import json
+from services.chatbot_service import ChatbotService
+
+from flask import send_file
+import os
 
 violencia_bp = Blueprint("violencia", __name__)
+
+@violencia_bp.route("/relatorio/download", methods=["GET"])
+def baixar_relatorio():
+    caminho_pdf = "/tmp/relatorio.pdf"
+
+    if not os.path.exists(caminho_pdf):
+        return {"erro": "Relatório não encontrado"}, 404
+
+    return send_file(
+        caminho_pdf,
+        as_attachment=True,
+        download_name="relatorio.pdf",
+        mimetype="application/pdf"
+    )
 
 # ---------------- ROTAS ---------------- #
 
@@ -133,3 +154,38 @@ def predict_violence():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# router = APIRouter(prefix="/chatbot", tags=["Chatbot"])
+chatbot_service = ChatbotService()
+
+# Estrutura da requisição
+
+class ChatRequest(BaseModel):
+    message: str
+    context: list | None = None
+
+@violencia_bp.route("/mensagem", methods=["POST"])
+def ask_bot():
+    try:
+        body = request.get_json()
+        req = ChatRequest(**body)
+
+        resposta = chatbot_service.generate_response(
+            message=req.message,
+            context=req.context
+        )
+
+        return jsonify({"response": resposta})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+@violencia_bp.get("/status")
+def health_check():
+    """
+    Verifica se o serviço está ativo.
+    """
+    return {"status": "Chatbot ativo 🚀"}

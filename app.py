@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from routes.violencia_routes import violencia_bp
-from services.mongo_service import init_app
+from services.mongo_service import init_app, ensure_text_index
 import os
 import requests
 import joblib
@@ -11,6 +11,7 @@ def create_app():
     app = Flask(__name__)
     CORS(app)
     init_app(app)
+    ensure_text_index()
 
     # Carregar modelo
     app.config["MODEL"] = load_model() 
@@ -23,4 +24,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(debug=True, port=5000, host="0.0.0.0")
+    app.run(debug=False, port=5000, host="0.0.0.0")
