@@ -34,7 +34,7 @@ export const ChatbotModal = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("ttps://crimes-production.up.railway.app/api/violencias/mensagem", {
+      const res = await fetch("https://crimes-production.up.railway.app/api/violencias/mensagem", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input, context: newMessages }),
@@ -68,7 +68,7 @@ export const ChatbotModal = () => {
           <div className="flex flex-col gap-2">
             <p>{content.mensagem}</p>
             <a
-              href={`ttps://crimes-production.up.railway.app/api/violencias/relatorio/download`}
+              href={`https://crimes-production.up.railway.app/api/violencias/relatorio/download`}
               download
               className="text-blue-600 underline font-semibold"
             >
