@@ -11,3 +11,4 @@ pydantic
 groq
 fastapi
 reportlab
+matplotlib
