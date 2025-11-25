@@ -10,3 +10,5 @@ scikit-learn
 pydantic
 groq
 fastapi
+reportlab
+uvicorn
