@@ -11,7 +11,7 @@ export interface Violencia {
 }
 
 // Base URL da API Flask
-const API_BASE_URL = "http://127.0.0.1:5000/api/violencias";
+const API_BASE_URL = "https://crimes-production.up.railway.app/api/violencias";
 
 export const violenciaService = {
   // Pega todos os documentos
