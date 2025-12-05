@@ -1,6 +1,7 @@
 name: CI de Testes Automatizados
 
 on:
+  workflow_dispatch:
   push:
     branches: 
       - Front-end
@@ -9,7 +10,6 @@ on:
     branches:
       - Front-end
       - demo
-  workflow_dispatch: # <--- Adicionado para permitir disparo manual
 
 jobs:
   testes-unitarios:
