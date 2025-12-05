@@ -72,12 +72,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
 
-    - name: Criar arquivo de teste funcional
-      working-directory: DEMO
-      run: |
-        mkdir -p tests/functional
-        echo "/* arquivo de teste */" > tests/functional/AnalysisScreen.functional.test.js
-
     - name: Rodar testes funcionais
       working-directory: DEMO
       run: npx jest tests/functional/AnalysisScreen.functional.test.js
