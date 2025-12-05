@@ -74,4 +74,4 @@ jobs:
 
     - name: Rodar testes funcionais
       working-directory: DEMO
-      run: npx jest --config=jest.config.cjs --watchAll=false --testPathPatterns=src/screens/AnalysisScreen.functional.test.ts
+      run: npx jest --config=jest.config.cjs --watchAll=false --testPathPatterns=tests/functional/AnalysisScreen.functional.test.ts
