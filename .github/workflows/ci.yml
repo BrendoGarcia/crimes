@@ -49,41 +49,30 @@ jobs:
   testes-funcionais:
     runs-on: ubuntu-latest
     needs: testes-unitarios
-  
+
     steps:
       - name: Checkout da branch DEMO
         uses: actions/checkout@v4
         with:
           ref: DEMO
           path: DEMO
-  
+
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-  
-      - name: Instalar dependências do Selenium
+
+      - name: Instalar dependências do Selenium e ChromeDriver
         working-directory: DEMO
         run: |
-          npm install selenium-webdriver jest
+          npm install selenium-webdriver chromedriver jest
           npm install --save-dev ts-jest @types/jest
-  
+
       - name: Instalar Google Chrome
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-  
-      - name: Instalar ChromeDriver compatível
-        run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+' | head -1)
-          echo "Chrome major version: $CHROME_VERSION"
-          CHROMEDRIVER_VERSION=$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
-          echo "Installing ChromeDriver version: $CHROMEDRIVER_VERSION"
-          wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-          unzip -o chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/
-  
+
       - name: Rodar testes funcionais
         working-directory: DEMO
         run: npx jest --config=jest.config.cjs --watchAll=false --testPathPatterns=tests/functional/AnalysisScreen.functional.test.ts
