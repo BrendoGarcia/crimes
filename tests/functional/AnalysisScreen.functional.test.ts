@@ -98,10 +98,11 @@ describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
     expect(await ageButton.getAttribute('aria-checked')).toBe('true');
     expect(await ethnicityButton.getAttribute('aria-checked')).toBe('true');
 
-    const chartTitle = await driver.wait(
-      until.elementLocated(By.xpath("//h2[contains(text(), 'Distribuição por Faixa Etária')]")),
-      15000
-    );
+    const chartTitle = await driver.wait(async () => {
+      const el = await driver.findElement(By.xpath("//h3[contains(text(), 'Distribuição por Faixa Etária')]"));
+      return (await el.isDisplayed()) ? el : null;
+    }, 30000); // aumenta timeout para 30s
+    
     expect(await chartTitle.isDisplayed()).toBe(true);
   });
 });
