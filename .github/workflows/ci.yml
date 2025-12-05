@@ -28,16 +28,17 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Instalar dependências + Jest
-      run: |
-        npm install
-        npm install jest @types/jest ts-jest --save-dev
+    - name: Instalar Jest
+      run: npm install jest @types/jest ts-jest --save-dev
+      working-directory: frontend
+
+    - name: Instalar dependências
+      run: npm install
       working-directory: frontend
 
     - name: Rodar testes unitários
-      run: npx jest --watchAll=false --testPathPattern=src/screens/AnalysisScreen.test.tsx
+      run: npx jest --watchAll=false --testPathPatterns=src/screens/AnalysisScreen.test.tsx
       working-directory: frontend
-
 
 
   testes-funcionais:
@@ -57,9 +58,7 @@ jobs:
         node-version: '18'
 
     - name: Instalar dependências do Selenium
-      run: |
-        npm install
-        npm install selenium-webdriver chromedriver jest
+      run: npm install selenium-webdriver chromedriver jest
       working-directory: demo
 
     - name: Instalar o Google Chrome
