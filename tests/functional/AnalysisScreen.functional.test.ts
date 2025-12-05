@@ -6,7 +6,7 @@ jest.setTimeout(40000);
 
 describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
   let driver: WebDriver;
-  const url = 'https://github.com/BrendoGarcia/crimes/tree/DEMO/';
+  const url = 'crimes-nine.vercel.app/';
 
   beforeAll(async () => {
     // Configuração para rodar o Chrome headless no CI/Linux
