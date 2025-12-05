@@ -9,9 +9,8 @@ describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
   const url = 'https://crimes-nine.vercel.app/';
 
   beforeAll(async () => {
-    // Configuração para rodar o Chrome headless no CI/Linux
     const options = new chrome.Options();
-    options.addArguments('--headless=new'); // headless moderno
+    options.addArguments('--headless=new'); 
     options.addArguments('--no-sandbox');
     options.addArguments('--disable-dev-shm-usage');
     options.addArguments('--disable-gpu');
@@ -31,7 +30,6 @@ describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
 
   beforeEach(async () => {
     await driver.get(url);
-    // Espera a tela principal carregar
     await driver.wait(
       until.elementLocated(By.xpath("//h1[contains(text(), 'Análise Detalhada com Filtros')]")),
       15000
@@ -40,11 +38,11 @@ describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
 
   // Teste 1: Interação básica
   test('Fluxo 1: Deve selecionar um filtro de Faixa Etária e o botão Limpar Filtros deve aparecer', async () => {
-    const labelFaixaEtaria = await driver.wait(
-      until.elementLocated(By.xpath("//label[contains(text(), '18-24')]")),
+    const ageButton = await driver.wait(
+      until.elementLocated(By.css('#age-15-29')),
       10000
     );
-    await labelFaixaEtaria.click();
+    await ageButton.click();
 
     const clearButton = await driver.wait(
       until.elementLocated(By.xpath("//button[contains(text(), 'Limpar Filtros')]")),
@@ -55,11 +53,11 @@ describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
 
   // Teste 2: Limpar Filtros
   test('Fluxo 2: Deve limpar os filtros ao clicar no botão Limpar Filtros', async () => {
-    const labelFaixaEtaria = await driver.wait(
-      until.elementLocated(By.xpath("//label[contains(text(), '18-24')]")),
+    const ageButton = await driver.wait(
+      until.elementLocated(By.css('#age-15-29')),
       10000
     );
-    await labelFaixaEtaria.click();
+    await ageButton.click();
 
     const clearButton = await driver.wait(
       until.elementLocated(By.xpath("//button[contains(text(), 'Limpar Filtros')]")),
@@ -67,38 +65,29 @@ describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
     );
     await clearButton.click();
 
-    const checkboxInput = await driver.wait(
-      until.elementLocated(By.xpath("//label[contains(text(), '18-24')]/preceding-sibling::input")),
+    const ageButtonAfterClear = await driver.wait(
+      until.elementLocated(By.css('#age-15-29')),
       5000
     );
-    expect(await checkboxInput.getAttribute('aria-checked')).toBe('false');
+    expect(await ageButtonAfterClear.getAttribute('aria-checked')).toBe('false');
   });
 
   // Teste 3: Múltiplos filtros
   test('Fluxo 3: Deve aplicar múltiplos filtros (Faixa Etária e Etnia)', async () => {
-    const labelFaixaEtaria = await driver.wait(
-      until.elementLocated(By.xpath("//label[contains(text(), '18-24')]")),
+    const ageButton = await driver.wait(
+      until.elementLocated(By.css('#age-15-29')),
       10000
     );
-    await labelFaixaEtaria.click();
+    await ageButton.click();
 
-    const labelEtnia = await driver.wait(
-      until.elementLocated(By.xpath("//label[contains(text(), 'Branca')]")),
+    const ethnicityButton = await driver.wait(
+      until.elementLocated(By.css('#ethnicity-Branca')),
       10000
     );
-    await labelEtnia.click();
+    await ethnicityButton.click();
 
-    const checkboxFaixaEtaria = await driver.wait(
-      until.elementLocated(By.xpath("//label[contains(text(), '18-24')]/preceding-sibling::input")),
-      5000
-    );
-    const checkboxEtnia = await driver.wait(
-      until.elementLocated(By.xpath("//label[contains(text(), 'Branca')]/preceding-sibling::input")),
-      5000
-    );
-
-    expect(await checkboxFaixaEtaria.getAttribute('aria-checked')).toBe('true');
-    expect(await checkboxEtnia.getAttribute('aria-checked')).toBe('true');
+    expect(await ageButton.getAttribute('aria-checked')).toBe('true');
+    expect(await ethnicityButton.getAttribute('aria-checked')).toBe('true');
 
     const chartTitle = await driver.wait(
       until.elementLocated(By.xpath("//h2[contains(text(), 'Distribuição por Faixa Etária')]")),
