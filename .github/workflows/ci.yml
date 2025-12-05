@@ -5,9 +5,11 @@ on:
   push:
     branches:
       - Front-end
+      - DEMO
   pull_request:
     branches:
       - Front-end
+      - DEMO
 
 jobs:
 
@@ -49,11 +51,11 @@ jobs:
     needs: testes-unitarios
 
     steps:
-    - name: Checkout da branch Front-end
+    - name: Checkout da branch DEMO
       uses: actions/checkout@v4
       with:
-        ref: Front-end
-        path: Front-end
+        ref: DEMO
+        path: DEMO
 
     - name: Configurar Node.js
       uses: actions/setup-node@v4
@@ -61,7 +63,7 @@ jobs:
         node-version: '18'
 
     - name: Instalar dependências do Selenium
-      working-directory: Front-end
+      working-directory: DEMO
       run: |
         npm install selenium-webdriver chromedriver jest
 
@@ -71,5 +73,5 @@ jobs:
         sudo apt-get install -y google-chrome-stable
 
     - name: Rodar testes funcionais
-      working-directory: Front-end
+      working-directory: DEMO
       run: npx jest --config=jest.config.cjs --watchAll=false --testPathPatterns=src/screens/AnalysisScreen.functional.test.ts
