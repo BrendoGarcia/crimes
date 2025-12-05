@@ -2,16 +2,16 @@ import { Builder, By, until, WebDriver } from 'selenium-webdriver';
 import * as chrome from 'selenium-webdriver/chrome';
 
 // Aumenta o tempo limite para testes de UI
-jest.setTimeout(40000);
+jest.setTimeout(60000);
 
 describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
   let driver: WebDriver;
-  const url = 'crimes-nine.vercel.app/';
+  const url = 'https://crimes-nine.vercel.app/';
 
   beforeAll(async () => {
     // Configuração para rodar o Chrome headless no CI/Linux
     const options = new chrome.Options();
-    options.addArguments('--headless=new'); // headless moderno
+    options.addArguments('--headless'); // headless moderno
     options.addArguments('--no-sandbox');
     options.addArguments('--disable-dev-shm-usage');
     options.addArguments('--disable-gpu');
