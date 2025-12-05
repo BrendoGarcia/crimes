@@ -9,6 +9,7 @@ on:
     branches:
       - Front-end
       - demo
+  workflow_dispatch: # <--- Adicionado para permitir disparo manual
 
 jobs:
   testes-unitarios:
@@ -32,6 +33,7 @@ jobs:
       working-directory: frontend
 
     - name: Rodar testes unitários
+      # Caminho corrigido para ser relativo à pasta 'frontend'
       run: npm test -- --watchAll=false --testPathPattern=src/screens/AnalysisScreen.test.tsx
       working-directory: frontend
 
@@ -68,5 +70,6 @@ jobs:
       working-directory: demo
 
     - name: Rodar testes funcionais
+      # Caminho corrigido para ser relativo à pasta 'demo'
       run: npx jest tests/functional/AnalysisScreen.functional.test.js
       working-directory: demo
