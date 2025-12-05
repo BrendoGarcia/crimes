@@ -1,0 +1,68 @@
+name: CI de Testes Automatizados
+
+on:
+  push:
+    branches: [ Front-end, demo ]
+  pull_request:
+    branches: [ Front-end, demo ]
+
+jobs:
+  testes-unitarios:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout do código (Front-end)
+      uses: actions/checkout@v4
+      with:
+        ref: Front-end # Garante que o código da branch Front-end seja usado
+        path: frontend
+
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Instalar dependências (Front-end)
+      run: npm install
+      working-directory: frontend
+
+    - name: Rodar testes unitários (Jest)
+      run: npm test -- --watchAll=false --testPathPattern=src/screens/AnalysisScreen.test.tsx
+      working-directory: frontend
+
+  testes-funcionais:
+    runs-on: ubuntu-latest
+    needs: testes-unitarios # Roda somente se os testes unitários passarem
+    steps:
+    - name: Checkout do código (demo)
+      uses: actions/checkout@v4
+      with:
+        ref: demo
+        path: demo
+
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: demo/package-lock.json
+
+    - name: Instalar dependências (demo)
+      run: npm install selenium-webdriver chromedriver jest
+      working-directory: demo
+
+    - name: Instalar o Google Chrome (necessário para o chromedriver)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+
+    - name: Criar arquivo de teste funcional
+      run: |
+        mkdir -p tests/functional
+        echo "const { Builder, By, until } = require('selenium-webdriver'); const chrome = require('selenium-webdriver/chrome'); jest.setTimeout(40000); describe('Testes Funcionais da Tela de Análise (Branch demo)', () => { let driver; const url = 'https://brendogarcia.github.io/crimes/'; beforeAll(async () => { driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build(); }); afterAll(async () => { await driver.quit(); }); beforeEach(async () => { await driver.get(url); await driver.wait(until.elementLocated(By.xpath(\"//h1[contains(text(), 'Análise Detalhada com Filtros')]\")), 15000); }); test('Fluxo 1: Deve selecionar um filtro de Faixa Etária e o botão Limpar Filtros deve aparecer', async () => { const labelFaixaEtaria = await driver.wait(until.elementLocated(By.xpath(\"//label[contains(text(), '18-24')]\")), 10000); await labelFaixaEtaria.click(); const clearButton = await driver.wait(until.elementLocated(By.xpath(\"//button[contains(text(), 'Limpar Filtros')]\")), 5000); expect(await clearButton.isDisplayed()).toBe(true); }); test('Fluxo 2: Deve limpar os filtros ao clicar no botão Limpar Filtros', async () => { const labelFaixaEtaria = await driver.wait(until.elementLocated(By.xpath(\"//label[contains(text(), '18-24')]\")), 10000); await labelFaixaEtaria.click(); const clearButton = await driver.wait(until.elementLocated(By.xpath(\"//button[contains(text(), 'Limpar Filtros')]\")), 5000); await clearButton.click(); const checkboxInput = await driver.wait(until.elementLocated(By.xpath(\"//label[contains(text(), '18-24')]/preceding-sibling::input\")), 5000); expect(await checkboxInput.getAttribute('aria-checked')).toBe('false'); }); test('Fluxo 3: Deve aplicar múltiplos filtros (Faixa Etária e Etnia)', async () => { const labelFaixaEtaria = await driver.wait(until.elementLocated(By.xpath(\"//label[contains(text(), '18-24')]\")), 10000); await labelFaixaEtaria.click(); const labelEtnia = await driver.wait(until.elementLocated(By.xpath(\"//label[contains(text(), 'Branca')]\")), 10000); await labelEtnia.click(); const checkboxFaixaEtaria = await driver.wait(until.elementLocated(By.xpath(\"//label[contains(text(), '18-24')]/preceding-sibling::input\")), 5000); const checkboxEtnia = await driver.wait(until.elementLocated(By.xpath(\"//label[contains(text(), 'Branca')]/preceding-sibling::input\")), 5000); expect(await checkboxFaixaEtaria.getAttribute('aria-checked')).toBe('true'); expect(await checkboxEtnia.getAttribute('aria-checked')).toBe('true'); await driver.wait(until.elementLocated(By.xpath(\"//h2[contains(text(), 'Distribuição por Faixa Etária')]\")), 15000); const chartTitle = await driver.findElement(By.xpath(\"//h2[contains(text(), 'Distribuição por Faixa Etária')]\")); expect(await chartTitle.isDisplayed()).toBe(true); }); });" > tests/functional/AnalysisScreen.functional.test.js
+      working-directory: demo
+
+    - name: Rodar testes funcionais (Selenium/Jest)
+      run: npx jest tests/functional/AnalysisScreen.functional.test.js
+      working-directory: demo
