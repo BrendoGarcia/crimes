@@ -8,11 +8,10 @@ module.exports = {
   },
 
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', { isolatedModules: true }],
-    '^.+\\.(js|jsx)$': 'babel-jest'
+    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.json' }]
   },
 
   setupFilesAfterEnv: ['<rootDir>/jest.setup.cjs'],
 
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  testPathIgnorePatterns: ['/node_modules/'],
 };
