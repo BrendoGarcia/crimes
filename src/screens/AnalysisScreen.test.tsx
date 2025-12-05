@@ -7,12 +7,12 @@ import { violenciaService } from '../services/violenciaService';
 jest.mock('../services/violenciaService', () => ({
   violenciaService: {
     getAll: jest.fn(() => Promise.resolve([
-      { "Soma de Quantidade_de_Casos": 10, "faixa_etaria": "18-24", "raca": "Branca", "tipo_de_violencia": "Roubo", "arma": "Faca", "ocorrencia": "Rua" },
-      { "Soma de Quantidade_de_Casos": 5, "faixa_etaria": "25-34", "raca": "Preta", "tipo_de_violencia": "Furto", "arma": "Pistola", "ocorrencia": "Casa" },
-      { "Soma de Quantidade_de_Casos": 15, "faixa_etaria": "18-24", "raca": "Branca", "tipo_de_violencia": "Roubo", "arma": "Faca", "ocorrencia": "Rua" },
+      { "Suma de Quantidade_de_Casos": 10, "faixa_etaria": "18-24", "raca": "Branca", "tipo_de_violencia": "Roubo", "arma": "Faca", "ocorrencia": "Rua" },
+      { "Suma de Quantidade_de_Casos": 5, "faixa_etaria": "25-34", "raca": "Preta", "tipo_de_violencia": "Furto", "arma": "Pistola", "ocorrencia": "Casa" },
+      { "Suma de Quantidade_de_Casos": 15, "faixa_etaria": "18-24", "raca": "Branca", "tipo_de_violencia": "Roubo", "arma": "Faca", "ocorrencia": "Rua" },
     ])),
     filter: jest.fn(() => Promise.resolve([
-      { "Soma de Quantidade_de_Casos": 20, "faixa_etaria": "18-24", "raca": "Branca", "tipo_de_violencia": "Roubo", "arma": "Faca", "ocorrencia": "Rua" },
+      { "Suma de Quantidade_de_Casos": 20, "faixa_etaria": "18-24", "raca": "Branca", "tipo_de_violencia": "Roubo", "arma": "Faca", "ocorrencia": "Rua" },
     ])),
   },
 }));
