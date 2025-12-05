@@ -12,7 +12,7 @@ module.exports = {
     '^.+\\.(js|jsx)$': 'babel-jest'
   },
 
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.cjs'],
 
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
 };
