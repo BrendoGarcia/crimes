@@ -31,16 +31,17 @@ jobs:
         cache-dependency-path: frontend/package-lock.json
 
     - name: Instalar dependências
+      working-directory: frontend
       run: |
         npm install
-        npm install --save-dev jest ts-jest @types/jest babel-jest \
-          @babel/preset-env @babel/preset-react @babel/preset-typescript \
+        npm install --save-dev jest ts-jest @types/jest \
+          jest-environment-jsdom \
+          babel-jest @babel/preset-env @babel/preset-react @babel/preset-typescript \
           @testing-library/react @testing-library/jest-dom
-      working-directory: frontend
 
     - name: Rodar testes unitários
-      run: npx jest --watchAll=false --testPathPatterns=src/screens/AnalysisScreen.test.tsx
       working-directory: frontend
+      run: npx jest --watchAll=false --testPathPatterns=src/screens/AnalysisScreen.test.tsx
 
 
   testes-funcionais:
@@ -60,8 +61,10 @@ jobs:
         node-version: '18'
 
     - name: Instalar dependências do Selenium
-      run: npm install selenium-webdriver chromedriver jest
       working-directory: demo
+      run: |
+        npm install
+        npm install selenium-webdriver chromedriver jest
 
     - name: Instalar o Google Chrome
       run: |
@@ -69,11 +72,11 @@ jobs:
         sudo apt-get install -y google-chrome-stable
 
     - name: Criar arquivo de teste funcional
+      working-directory: demo
       run: |
         mkdir -p tests/functional
         echo "/* arquivo de teste */" > tests/functional/AnalysisScreen.functional.test.js
-      working-directory: demo
 
     - name: Rodar testes funcionais
-      run: npx jest tests/functional/AnalysisScreen.functional.test.js
       working-directory: demo
+      run: npx jest tests/functional/AnalysisScreen.functional.test.js
