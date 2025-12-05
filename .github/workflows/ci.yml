@@ -66,6 +66,7 @@ jobs:
       working-directory: DEMO
       run: |
         npm install selenium-webdriver chromedriver jest
+        npm install --save-dev ts-jest @types/jest
 
     - name: Instalar o Google Chrome
       run: |
