@@ -67,6 +67,7 @@ jobs:
       run: |
         npm install selenium-webdriver chromedriver jest
         npm install --save-dev ts-jest @types/jest
+        npm install chromedriver --save-dev
 
     - name: Instalar o Google Chrome
       run: |
