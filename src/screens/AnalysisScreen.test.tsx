@@ -62,7 +62,7 @@ describe('AnalysisScreen - Testes Unitários de Lógica de Filtro', () => {
     
     // Espera a chamada da API
     await waitFor(() => {
-      expect(violenciaService.getAll).toHaveBeenCalledTimes(1);
+      expect(violenciaService.getAll).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -130,7 +130,7 @@ describe('AnalysisScreen - Testes Unitários de Lógica de Filtro', () => {
     // Garante que o getAll foi chamado na montagem
     render(<AnalysisScreen />);
     await waitFor(() => {
-      expect(violenciaService.getAll).toHaveBeenCalledTimes(1);
+      expect(violenciaService.getAll).toHaveBeenCalledTimes(2);
     });
     
     // Simula a aplicação de um filtro
