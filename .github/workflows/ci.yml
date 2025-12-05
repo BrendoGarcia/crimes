@@ -72,4 +72,4 @@ jobs:
 
     - name: Rodar testes funcionais
       working-directory: Front-end
-      run: npx jest --config=jest.config.cjs --watchAll=false --testPathPatterns=src/screens/AnalysisScreen.functional.test.js
+      run: npx jest --config=jest.config.cjs --watchAll=false --testPathPatterns=src/screens/AnalysisScreen.functional.test.ts
