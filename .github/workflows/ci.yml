@@ -2,9 +2,13 @@ name: CI de Testes Automatizados
 
 on:
   push:
-    branches: [ Front-end, demo ]
+    branches: 
+      - "Front-end"
+      - "demo"
   pull_request:
-    branches: [ Front-end, demo ]
+    branches:
+      - "Front-end"
+      - "demo"
 
 jobs:
   testes-unitarios:
