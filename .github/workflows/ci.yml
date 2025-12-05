@@ -12,8 +12,10 @@ on:
       - demo
 
 jobs:
+
   testes-unitarios:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout da branch Front-end
       uses: actions/checkout@v4
@@ -28,18 +30,23 @@ jobs:
         cache: 'npm'
         cache-dependency-path: frontend/package-lock.json
 
+    - name: Instalar Jest
+      run: npm install jest @types/jest ts-jest --save-dev
+      working-directory: frontend     
+
     - name: Instalar dependências
       run: npm install
       working-directory: frontend
 
     - name: Rodar testes unitários
-      # Caminho corrigido para ser relativo à pasta 'frontend'
       run: npm test -- --watchAll=false --testPathPattern=src/screens/AnalysisScreen.test.tsx
       working-directory: frontend
+
 
   testes-funcionais:
     runs-on: ubuntu-latest
     needs: testes-unitarios
+
     steps:
     - name: Checkout da branch demo
       uses: actions/checkout@v4
@@ -70,6 +77,5 @@ jobs:
       working-directory: demo
 
     - name: Rodar testes funcionais
-      # Caminho corrigido para ser relativo à pasta 'demo'
       run: npx jest tests/functional/AnalysisScreen.functional.test.js
       working-directory: demo
