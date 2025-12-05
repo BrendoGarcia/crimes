@@ -11,7 +11,7 @@ describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
   beforeAll(async () => {
     // Configuração para rodar o Chrome headless no CI/Linux
     const options = new chrome.Options();
-    options.addArguments('--headless'); // headless moderno
+    options.addArguments('--headless=new'); // headless moderno
     options.addArguments('--no-sandbox');
     options.addArguments('--disable-dev-shm-usage');
     options.addArguments('--disable-gpu');
