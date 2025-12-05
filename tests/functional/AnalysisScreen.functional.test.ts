@@ -23,17 +23,26 @@ describe('Testes Funcionais da Tela de Análise (Branch demo)', () => {
   });
 
   afterAll(async () => {
-    if (driver) {
-      await driver.quit();
-    }
+    if (driver) await driver.quit();
   });
 
   beforeEach(async () => {
+    // Abre a página raiz
     await driver.get(url);
-    await driver.wait(
-      until.elementLocated(By.xpath("//h1[contains(text(), 'Análise Detalhada com Filtros')]")),
+
+    // Clica no botão "Análise" para navegar para a subpágina correta
+    const botaoAnalise = await driver.wait(
+      until.elementLocated(By.xpath("//button[contains(text(), 'Análise')]")),
       15000
     );
+    await botaoAnalise.click();
+
+    // Espera o header da subpágina carregar
+    const header = await driver.wait(
+      until.elementLocated(By.xpath("//h1[contains(text(), 'Análise Detalhada com Filtros')]")),
+      30000
+    );
+    await driver.wait(until.elementIsVisible(header), 30000);
   });
 
   // Teste 1: Interação básica
