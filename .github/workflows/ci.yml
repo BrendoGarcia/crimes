@@ -27,20 +27,17 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: frontend/package-lock.json
 
-    - name: Instalar Jest
-      run: npm install jest @types/jest ts-jest --save-dev
-      working-directory: frontend     
-
-    - name: Instalar dependências
-      run: npm install
+    - name: Instalar dependências + Jest
+      run: |
+        npm install
+        npm install jest @types/jest ts-jest --save-dev
       working-directory: frontend
 
     - name: Rodar testes unitários
-      run: npm test -- --watchAll=false --testPathPattern=src/screens/AnalysisScreen.test.tsx
+      run: npx jest --watchAll=false --testPathPattern=src/screens/AnalysisScreen.test.tsx
       working-directory: frontend
+
 
 
   testes-funcionais:
@@ -58,11 +55,11 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: demo/package-lock.json
 
     - name: Instalar dependências do Selenium
-      run: npm install selenium-webdriver chromedriver jest
+      run: |
+        npm install
+        npm install selenium-webdriver chromedriver jest
       working-directory: demo
 
     - name: Instalar o Google Chrome
